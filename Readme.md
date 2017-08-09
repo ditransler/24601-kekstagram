@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Дмитрий Беглов](https://up.htmlacademy.ru/javascript/10/user/24601).
-* Наставник: `Неизвестно`.
+* Наставник: [Александр Вагнер](https://htmlacademy.ru/profile/id354297).
 
 ---
 
