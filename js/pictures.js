@@ -47,3 +47,19 @@ function generateRandomComment(comments) {
 
   return comments[firstLineIndex] + ' ' + comments[secondLineIndex];
 }
+
+function generateOtherPhotos(quantity) {
+  var photos = [];
+
+  quantity = quantity || 25;
+
+  for (var i = 0; i < quantity; i++) {
+    photos.push({
+      url: generatePhotoURL(i + 1, quantity),
+      likes: getRandomInteger(15, 200),
+      comments: generateRandomComment(COMMENTS)
+    });
+  }
+
+  return photos;
+}
