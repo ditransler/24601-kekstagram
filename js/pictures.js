@@ -57,3 +57,5 @@ function generateOtherPhotos(quantity) {
 
   return photos;
 }
+
+generateOtherPhotos();
