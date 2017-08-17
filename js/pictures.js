@@ -39,7 +39,7 @@ function generateRandomComment(comments) {
    ***/
   secondLineIndex = getExceptRandomInteger(0, max, firstLineIndex);
 
-  return comments[firstLineIndex] + ' ' + comments[secondLineIndex];
+  return comments[firstLineIndex] + '<br>' + comments[secondLineIndex];
 }
 
 function generateOtherPhotos(quantity) {
