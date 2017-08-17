@@ -22,3 +22,9 @@ function generatePhotoURLs(from, to) {
 function getRandomInteger(min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
 }
+
+function getExceptRandomInteger(min, max, except) {
+  var int = getRandomInteger(min, max);
+
+  return (int === except) ? getExceptRandomInteger(min, max) : int;
+}
