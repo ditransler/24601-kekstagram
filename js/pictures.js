@@ -9,3 +9,7 @@ function generatePhotoURLs(from, to) {
 
   return urls;
 }
+
+function getRandomInteger(min, max) {
+  return Math.floor(min + Math.random() * (max + 1 - min));
+}
