@@ -28,3 +28,22 @@ function getExceptRandomInteger(min, max, except) {
 
   return (int === except) ? getExceptRandomInteger(min, max) : int;
 }
+
+function generateRandomComment(comments) {
+  var isTwoLined = Math.floor(Math.random() * 2);
+  var max = comments.length - 1;
+  var firstLineIndex = getRandomInteger(0, max);
+  var secondLineIndex = null;
+
+  if (!isTwoLined) {
+    return comments[firstLineIndex];
+  }
+
+  /**
+   * When combining two lines of a comment
+   * we don't want to pick the same line twice
+   ***/
+  secondLineIndex = getExceptRandomInteger(0, max, firstLineIndex);
+
+  return comments[firstLineIndex] + ' ' + comments[secondLineIndex];
+}
