@@ -9,14 +9,8 @@ var COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-function generatePhotoURLs(from, to) {
-  var urls = [];
-
-  for(var i = from; i <= to; i++) {
-    urls.push('photos/' + i + '.jpg');
-  }
-
-  return urls;
+function generatePhotoURL(index) {
+  return 'photos/' + index + '.jpg';
 }
 
 function getRandomInteger(min, max) {
