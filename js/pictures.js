@@ -80,3 +80,10 @@ function addPhotoToPictures(pictures, target, template) {
 
   target.appendChild(fragment);
 }
+
+var pictureTemplate = document.querySelector('#picture-template').content;
+var pictures = document.querySelector('.pictures');
+
+var generatedPictures = generatePictures();
+
+addPhotoToPictures(generatedPictures, pictures, pictureTemplate);
