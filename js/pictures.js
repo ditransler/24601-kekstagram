@@ -39,7 +39,7 @@ function generateRandomComment(comments) {
    ***/
   secondLineIndex = getExceptRandomInteger(0, max, firstLineIndex);
 
-  return comments[firstLineIndex] + '<br>' + comments[secondLineIndex];
+  return comments[firstLineIndex] + '\n' + comments[secondLineIndex];
 }
 
 function generateOtherPhotos(quantity) {
@@ -58,4 +58,17 @@ function generateOtherPhotos(quantity) {
   return photos;
 }
 
-generateOtherPhotos();
+function renderPhoto(photo, template) {
+  var photoElem = template.cloneNode(true);
+
+  photoElem.querySelector('.picture')
+    .querySelector('img').setAttribute('src', photo.url);
+
+  photoElem.querySelector('.picture-likes').textContent = photo.likes;
+
+  photoElem.querySelector('.picture-comments').textContent = photo.comments;
+
+  return photoElem;
+}
+
+
