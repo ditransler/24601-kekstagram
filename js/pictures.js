@@ -71,4 +71,12 @@ function renderPhoto(photo, template) {
   return photoElem;
 }
 
+function addPhotoToPictures(photos, target, template) {
+  var fragment = document.createDocumentFragment();
 
+  photos.forEach(function (photo) {
+    fragment.appendChild(renderPhoto(photo, template));
+  });
+
+  target.appendChild(fragment);
+}
