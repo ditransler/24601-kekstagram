@@ -17,6 +17,28 @@ function getRandomInteger(min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
 }
 
+function getNounEnding(number, one, two, five) {
+  var n = Math.abs(number);
+
+  n %= 100;
+
+  if (n >= 5 && n <= 20) {
+    return five;
+  }
+
+  n %= 10;
+
+  if (n === 1) {
+    return one;
+  }
+
+  if (n >= 2 && n <= 4) {
+    return two;
+  }
+
+  return five;
+}
+
 function getExceptRandomInteger(min, max, except) {
   var int = getRandomInteger(min, max);
 
@@ -84,7 +106,16 @@ function addPhotoToPictures(pictures, target, template) {
 function addPictureToGalleryOverlay(item, target) {
   target.querySelector('.gallery-overlay-image').setAttribute('src', item.url);
   target.querySelector('.likes-count').textContent = item.likes;
-  target.querySelector('.comments-count').textContent = item.comments.length;
+
+  var commentsCount = target.querySelector('.comments-count');
+  var commentsLength = item.comments.length;
+
+  commentsCount.textContent = commentsLength;
+
+  commentsCount.nextSibling.textContent = commentsCount.nextSibling.textContent
+    .replace(/(комментари)[а-я]{1,3}/i, function (match, p1) {
+      return p1 + getNounEnding(commentsLength, 'й', 'я', 'ев');
+    });
 }
 
 var pictureTemplate = document.querySelector('#picture-template').content;
