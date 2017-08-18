@@ -81,9 +81,22 @@ function addPhotoToPictures(pictures, target, template) {
   target.appendChild(fragment);
 }
 
+function addPictureToGalleryOverlay(item, target) {
+  target.querySelector('.gallery-overlay-image').setAttribute('src', item.url);
+  target.querySelector('.likes-count').textContent = item.likes;
+  target.querySelector('.comments-count').textContent = item.comments;
+}
+
 var pictureTemplate = document.querySelector('#picture-template').content;
 var pictures = document.querySelector('.pictures');
 
 var generatedPictures = generatePictures();
 
 addPhotoToPictures(generatedPictures, pictures, pictureTemplate);
+
+var uploadOverlay = document.querySelector('.upload-overlay');
+uploadOverlay.classList.add('hidden');
+
+var galleryOverlay = document.querySelector('.gallery-overlay');
+addPictureToGalleryOverlay(generatedPictures[0], galleryOverlay);
+galleryOverlay.classList.remove('hidden');
