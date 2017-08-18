@@ -9,7 +9,7 @@ var COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-function generatePhotoURL(index) {
+function generatePictureURL(index) {
   return 'photos/' + index + '.jpg';
 }
 
@@ -42,40 +42,40 @@ function generateRandomComment(comments) {
   return comments[firstLineIndex] + '\n' + comments[secondLineIndex];
 }
 
-function generateOtherPhotos(quantity) {
-  var photos = [];
+function generatePictures(quantity) {
+  var pictures = [];
 
   quantity = quantity || 25;
 
   for (var i = 0; i < quantity; i++) {
-    photos.push({
-      url: generatePhotoURL(i + 1, quantity),
+    pictures.push({
+      url: generatePictureURL(i + 1, quantity),
       likes: getRandomInteger(15, 200),
       comments: generateRandomComment(COMMENTS)
     });
   }
 
-  return photos;
+  return pictures;
 }
 
-function renderPhoto(photo, template) {
-  var photoElem = template.cloneNode(true);
+function renderPhoto(picture, template) {
+  var pictureElem = template.cloneNode(true);
 
-  photoElem.querySelector('.picture')
-    .querySelector('img').setAttribute('src', photo.url);
+  pictureElem.querySelector('.picture')
+    .querySelector('img').setAttribute('src', picture.url);
 
-  photoElem.querySelector('.picture-likes').textContent = photo.likes;
+  pictureElem.querySelector('.picture-likes').textContent = picture.likes;
 
-  photoElem.querySelector('.picture-comments').textContent = photo.comments;
+  pictureElem.querySelector('.picture-comments').textContent = picture.comments;
 
-  return photoElem;
+  return pictureElem;
 }
 
-function addPhotoToPictures(photos, target, template) {
+function addPhotoToPictures(pictures, target, template) {
   var fragment = document.createDocumentFragment();
 
-  photos.forEach(function (photo) {
-    fragment.appendChild(renderPhoto(photo, template));
+  pictures.forEach(function (picture) {
+    fragment.appendChild(renderPhoto(picture, template));
   });
 
   target.appendChild(fragment);
