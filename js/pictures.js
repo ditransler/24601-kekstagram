@@ -141,6 +141,22 @@ pictures.addEventListener('click', function onPictureClick(evt) {
     return;
   }
 
+  var pictureUrl = picture.querySelector('img').getAttribute('src');
+  var pictureComments = picture.querySelector('.picture-comments').textContent;
+  var pictureLikes = picture.querySelector('.picture-likes').textContent;
+
+  var galleryComments = galleryOverlay.querySelector('.comments-count');
+
+  galleryOverlay.querySelector('.gallery-overlay-image').setAttribute('src', pictureUrl);
+
+  galleryComments.textContent = pictureComments;
+  galleryComments.nextSibling.textContent = galleryComments.nextSibling.textContent
+    .replace(/(комментари)[а-я]{1,3}/i, function (match, p1) {
+      return p1 + getNounEnding(+pictureComments, 'й', 'я', 'ев');
+    });
+
+  galleryOverlay.querySelector('.likes-count').textContent = pictureLikes;
+
   galleryOverlay.classList.remove('hidden');
 });
 
