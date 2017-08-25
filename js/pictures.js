@@ -9,6 +9,11 @@ var COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
+var KEYCODES = {
+  Enter: 13,
+  Esc: 27
+};
+
 function generatePictureURL(index) {
   return 'photos/' + index + '.jpg';
 }
@@ -103,28 +108,7 @@ function addPhotoToPictures(pictures, target, template) {
   target.appendChild(fragment);
 }
 
-var pictureTemplate = document.querySelector('#picture-template').content;
-var pictures = document.querySelector('.pictures');
-
-var generatedPictures = generatePictures();
-
-addPhotoToPictures(generatedPictures, pictures, pictureTemplate);
-
-var uploadOverlay = document.querySelector('.upload-overlay');
-uploadOverlay.classList.add('hidden');
-
-var galleryOverlay = document.querySelector('.gallery-overlay');
-var galleryOverlayClose = galleryOverlay.querySelector('.gallery-overlay-close');
-
-pictures.addEventListener('click', function onPictureClick(evt) {
-  var picture = evt.target.closest('.picture');
-
-  evt.preventDefault();
-
-  if (!picture) {
-    return;
-  }
-
+function openGalleryOverlay(picture) {
   var pictureUrl = picture.querySelector('img').getAttribute('src');
   var pictureComments = picture.querySelector('.picture-comments').textContent;
   var pictureLikes = picture.querySelector('.picture-likes').textContent;
@@ -142,6 +126,49 @@ pictures.addEventListener('click', function onPictureClick(evt) {
   galleryOverlay.querySelector('.likes-count').textContent = pictureLikes;
 
   galleryOverlay.classList.remove('hidden');
+}
+
+var pictureTemplate = document.querySelector('#picture-template').content;
+var pictures = document.querySelector('.pictures');
+
+var generatedPictures = generatePictures();
+
+addPhotoToPictures(generatedPictures, pictures, pictureTemplate);
+
+var uploadOverlay = document.querySelector('.upload-overlay');
+uploadOverlay.classList.add('hidden');
+
+var galleryOverlay = document.querySelector('.gallery-overlay');
+var galleryOverlayClose = galleryOverlay.querySelector('.gallery-overlay-close');
+
+pictures.addEventListener('click', function onPictureClick(evt) {
+  var picture = evt.target.closest('.picture');
+
+  if (!picture) {
+    return;
+  }
+
+  evt.preventDefault();
+
+  openGalleryOverlay(picture);
+});
+
+pictures.addEventListener('keydown', function onPictureEnterPress(evt) {
+  var picture = evt.target.closest('.picture');
+
+  if (evt.keyCode !== KEYCODES.Enter) {
+    return;
+  }
+
+  if (!picture) {
+    return;
+  }
+
+  debugger;
+
+  evt.preventDefault();
+
+  openGalleryOverlay(picture);
 });
 
 galleryOverlayClose.addEventListener('click', function onGalleryOverlayClose(evt) {
