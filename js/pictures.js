@@ -129,5 +129,21 @@ var uploadOverlay = document.querySelector('.upload-overlay');
 uploadOverlay.classList.add('hidden');
 
 var galleryOverlay = document.querySelector('.gallery-overlay');
+var galleryOverlayClose = galleryOverlay.querySelector('.gallery-overlay-close');
 addPictureToGalleryOverlay(generatedPictures[0], galleryOverlay);
-galleryOverlay.classList.remove('hidden');
+
+pictures.addEventListener('click', function onPictureClick(evt) {
+  var picture = evt.target.closest('.picture');
+
+  evt.preventDefault();
+
+  if (!picture) {
+    return;
+  }
+
+  galleryOverlay.classList.remove('hidden');
+});
+
+galleryOverlayClose.addEventListener('click', function onGalleryOverlayClose(evt) {
+  galleryOverlay.classList.add('hidden');
+});
