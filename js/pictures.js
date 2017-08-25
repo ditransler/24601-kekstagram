@@ -103,21 +103,6 @@ function addPhotoToPictures(pictures, target, template) {
   target.appendChild(fragment);
 }
 
-function addPictureToGalleryOverlay(item, target) {
-  target.querySelector('.gallery-overlay-image').setAttribute('src', item.url);
-  target.querySelector('.likes-count').textContent = item.likes;
-
-  var commentsCount = target.querySelector('.comments-count');
-  var commentsLength = item.comments.length;
-
-  commentsCount.textContent = commentsLength;
-
-  commentsCount.nextSibling.textContent = commentsCount.nextSibling.textContent
-    .replace(/(комментари)[а-я]{1,3}/i, function (match, p1) {
-      return p1 + getNounEnding(commentsLength, 'й', 'я', 'ев');
-    });
-}
-
 var pictureTemplate = document.querySelector('#picture-template').content;
 var pictures = document.querySelector('.pictures');
 
@@ -130,7 +115,6 @@ uploadOverlay.classList.add('hidden');
 
 var galleryOverlay = document.querySelector('.gallery-overlay');
 var galleryOverlayClose = galleryOverlay.querySelector('.gallery-overlay-close');
-addPictureToGalleryOverlay(generatedPictures[0], galleryOverlay);
 
 pictures.addEventListener('click', function onPictureClick(evt) {
   var picture = evt.target.closest('.picture');
