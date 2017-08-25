@@ -76,6 +76,7 @@ function generatePictures(quantity) {
 
   for (var i = 0; i < quantity; i++) {
     pictures.push({
+      id: 'picture-' + ((i <= 9) ? '0' + i : i),
       url: generatePictureURL(i + 1, quantity),
       likes: getRandomInteger(15, 200),
       comments: generateRandomComment(COMMENTS)
@@ -87,9 +88,11 @@ function generatePictures(quantity) {
 
 function renderPhoto(picture, template) {
   var pictureElem = template.cloneNode(true);
+  var pictureTag = pictureElem.querySelector('.picture');
 
-  pictureElem.querySelector('.picture')
-    .querySelector('img').setAttribute('src', picture.url);
+  pictureTag.setAttribute('id', picture.id);
+
+  pictureTag.querySelector('img').setAttribute('src', picture.url);
 
   pictureElem.querySelector('.picture-likes').textContent = picture.likes;
 
@@ -110,6 +113,7 @@ function addPhotoToPictures(pictures, target, template) {
 
 function closeGalleryOverlay() {
   document.removeEventListener('keydown', onGalleryOverlayEscPress);
+  document.querySelector(galleryOverlay.dataset['returnFocus']).focus();
   galleryOverlay.classList.add('hidden');
 }
 
@@ -144,7 +148,10 @@ function openGalleryOverlay(picture) {
 
   document.addEventListener('keydown', onGalleryOverlayEscPress);
 
+  galleryOverlay.dataset['returnFocus'] = '#' + picture.getAttribute('id');
+
   galleryOverlay.classList.remove('hidden');
+  galleryOverlay.focus();
 }
 
 var pictureTemplate = document.querySelector('#picture-template').content;
