@@ -134,8 +134,8 @@
 </footer>
 
 
-<div class="gallery-overlay hidden">
-  <span class="gallery-overlay-close">&times;</span>
+<div class="gallery-overlay hidden" tabindex="-1">
+  <span class="gallery-overlay-close" tabindex="0">&times;</span>
   <div class="gallery-overlay-preview">
     <img src="" class="gallery-overlay-image" alt="">
     <div class="gallery-overlay-controls">
@@ -146,7 +146,7 @@
 </div>
 
 <template id="picture-template" style="display: none">
-  <a href="" class="picture">
+  <a href="" class="picture" tabindex="0">
     <img src="" width="182" height="182">
     <span class="picture-stats">
       <span class="picture-stat picture-comments"></span>
