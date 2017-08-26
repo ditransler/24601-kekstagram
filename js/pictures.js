@@ -161,9 +161,6 @@ var generatedPictures = generatePictures();
 
 addPhotoToPictures(generatedPictures, pictures, pictureTemplate);
 
-var uploadOverlay = document.querySelector('.upload-overlay');
-uploadOverlay.classList.add('hidden');
-
 var galleryOverlay = document.querySelector('.gallery-overlay');
 var galleryOverlayClose = galleryOverlay.querySelector('.gallery-overlay-close');
 
@@ -206,3 +203,29 @@ galleryOverlayClose.addEventListener('keydown', function onGalleryOverlayCloseEn
 
   closeGalleryOverlay();
 });
+
+var uploadSelectImageForm = document.querySelector('#upload-select-image');
+var uploadOverlay = uploadSelectImageForm.querySelector('.upload-overlay');
+var uploadFile = uploadSelectImageForm.querySelector('#upload-file');
+var uploadImage = uploadSelectImageForm.querySelector('.upload-image');
+var uploadFormCancel = uploadSelectImageForm.querySelector('.upload-form-cancel');
+
+function openUploadOverlay() {
+  uploadImage.classList.add('hidden');
+  uploadOverlay.classList.remove('hidden');
+}
+
+function closeUploadOverlay() {
+  uploadImage.classList.remove('hidden');
+  uploadOverlay.classList.add('hidden');
+}
+
+uploadFile.addEventListener('change', function onUploadFileChange(evt) {
+  openUploadOverlay();
+});
+
+uploadFormCancel.addEventListener('click', function onUploadFormCancelClick(evt) {
+  closeUploadOverlay();
+});
+
+
