@@ -208,7 +208,7 @@ var uploadSelectImageForm = document.querySelector('#upload-select-image');
 var uploadOverlay = uploadSelectImageForm.querySelector('.upload-overlay');
 var uploadFile = uploadSelectImageForm.querySelector('#upload-file');
 var uploadImage = uploadSelectImageForm.querySelector('.upload-image');
-var uploadFormCancel = uploadSelectImageForm.querySelector('.upload-form-cancel');
+var uploadFormCancel = uploadSelectImageForm.querySelector('#upload-cancel');
 
 function onUploadOverlayEscPress(evt) {
   if (evt.keyCode !== KEYCODES.Esc) {
