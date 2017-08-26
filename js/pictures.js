@@ -210,17 +210,33 @@ var uploadFile = uploadSelectImageForm.querySelector('#upload-file');
 var uploadImage = uploadSelectImageForm.querySelector('.upload-image');
 var uploadFormCancel = uploadSelectImageForm.querySelector('.upload-form-cancel');
 
+function onUploadOverlayEscPress(evt) {
+  if (evt.keyCode !== KEYCODES.Esc) {
+    return;
+  }
+
+  if (document.activeElement.classList.contains('upload-form-description')) {
+    return;
+  }
+
+  closeUploadOverlay();
+}
+
 function openUploadOverlay() {
   uploadImage.classList.add('hidden');
   uploadOverlay.classList.remove('hidden');
 }
 
 function closeUploadOverlay() {
+  document.removeEventListener('keydown', onUploadOverlayEscPress);
+
   uploadImage.classList.remove('hidden');
   uploadOverlay.classList.add('hidden');
 }
 
 uploadFile.addEventListener('change', function onUploadFileChange(evt) {
+  document.addEventListener('keydown', onUploadOverlayEscPress);
+
   openUploadOverlay();
 });
 
