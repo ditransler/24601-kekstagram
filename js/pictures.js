@@ -210,6 +210,13 @@ var uploadFile = uploadSelectImageForm.querySelector('#upload-file');
 var uploadImage = uploadSelectImageForm.querySelector('.upload-image');
 var uploadFormCancel = uploadSelectImageForm.querySelector('#upload-cancel');
 
+uploadSelectImageForm.addEventListener('submit', function onUploadSelectImageFormSubmit(evt) {
+  if (!document.activeElement.classList.contains('upload-form-submit')) {
+    evt.preventDefault();
+    return;
+  }
+});
+
 function onUploadOverlayEscPress(evt) {
   if (evt.keyCode !== KEYCODES.Esc) {
     return;
@@ -251,5 +258,4 @@ uploadFormCancel.addEventListener('keydown', function onUploadFormCancelEnterPre
 
   closeUploadOverlay();
 });
-
 
