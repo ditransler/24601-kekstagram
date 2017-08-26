@@ -244,4 +244,12 @@ uploadFormCancel.addEventListener('click', function onUploadFormCancelClick(evt)
   closeUploadOverlay();
 });
 
+uploadFormCancel.addEventListener('keydown', function onUploadFormCancelEnterPress(evt) {
+  if (evt.keyCode !== KEYCODES.Enter) {
+    return;
+  }
+
+  closeUploadOverlay();
+});
+
 
