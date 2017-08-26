@@ -209,6 +209,9 @@ var uploadOverlay = uploadSelectImageForm.querySelector('.upload-overlay');
 var uploadFile = uploadSelectImageForm.querySelector('#upload-file');
 var uploadImage = uploadSelectImageForm.querySelector('.upload-image');
 var uploadFormCancel = uploadSelectImageForm.querySelector('#upload-cancel');
+var uploadEffectControls = uploadSelectImageForm.querySelector('.upload-effect-controls');
+var uploadImagePreview = uploadSelectImageForm.querySelector('.upload-form-preview');
+var effectImagePreview = uploadImagePreview.querySelector('.effect-image-preview');
 
 uploadSelectImageForm.addEventListener('submit', function onUploadSelectImageFormSubmit(evt) {
   if (!document.activeElement.classList.contains('upload-form-submit')) {
@@ -259,3 +262,23 @@ uploadFormCancel.addEventListener('keydown', function onUploadFormCancelEnterPre
   closeUploadOverlay();
 });
 
+uploadEffectControls.addEventListener('change', function onUploadEffectControlsChange(evt) {
+  if (evt.target.name !== 'effect') {
+    return;
+  }
+
+  var effect = 'effect-' + evt.target.value;
+  var radios = evt.currentTarget.querySelectorAll('[name=effect]');
+
+  radios.forEach(function (item) {
+    var effectName = 'effect-' + item.value;
+
+    if (!effectImagePreview.classList.contains(effectName)) {
+      return;
+    }
+
+    effectImagePreview.classList.remove(effectName);
+  });
+
+  effectImagePreview.classList.add(effect);
+});
