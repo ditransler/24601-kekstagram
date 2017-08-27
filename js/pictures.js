@@ -210,6 +210,8 @@ var uploadFile = uploadSelectImageForm.querySelector('#upload-file');
 var uploadImage = uploadSelectImageForm.querySelector('.upload-image');
 var uploadFormCancel = uploadSelectImageForm.querySelector('#upload-cancel');
 var uploadEffectControls = uploadSelectImageForm.querySelector('.upload-effect-controls');
+var uploadResizeControls = uploadSelectImageForm.querySelector('.upload-resize-controls');
+var uploadResizeControlsValue = uploadResizeControls.querySelector('.upload-resize-controls-value');
 var uploadImagePreview = uploadSelectImageForm.querySelector('.upload-form-preview');
 var effectImagePreview = uploadImagePreview.querySelector('.effect-image-preview');
 
@@ -281,4 +283,27 @@ uploadEffectControls.addEventListener('change', function onUploadEffectControlsC
   });
 
   effectImagePreview.classList.add(effect);
+});
+
+uploadResizeControls.addEventListener('click', function onUploadResizeControlsClick(evt) {
+  var step = +uploadResizeControlsValue.getAttribute('step');
+  var min = +uploadResizeControlsValue.getAttribute('min');
+  var max = +uploadResizeControlsValue.getAttribute('max');
+  var currentValue = +uploadResizeControlsValue.value.slice(0, -1); // cut off percents sign
+  var newValue = null;
+
+  // Decrease the value
+  if (evt.target.classList.contains('upload-resize-controls-button-dec')) {
+    newValue = currentValue - step;
+    newValue = (newValue <= min) ? min : newValue;
+  }
+
+  // Increase the value
+  if (evt.target.classList.contains('upload-resize-controls-button-inc')) {
+    newValue = currentValue + step;
+    newValue = (newValue >= max) ? max : newValue;
+  }
+
+  uploadResizeControlsValue.value = newValue + '%';
+  effectImagePreview.style.transform = 'scale(' + (newValue / 100) + ')';
 });
