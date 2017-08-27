@@ -209,19 +209,68 @@ var uploadOverlay = uploadSelectImageForm.querySelector('.upload-overlay');
 var uploadFile = uploadSelectImageForm.querySelector('#upload-file');
 var uploadImage = uploadSelectImageForm.querySelector('.upload-image');
 var uploadFormCancel = uploadSelectImageForm.querySelector('#upload-cancel');
+var uploadFormHashtags = uploadSelectImageForm.querySelector('.upload-form-hashtags');
+var uploadFormDescription = uploadSelectImageForm.querySelector('.upload-form-description');
 var uploadEffectControls = uploadSelectImageForm.querySelector('.upload-effect-controls');
 var uploadResizeControls = uploadSelectImageForm.querySelector('.upload-resize-controls');
 var uploadResizeControlsValue = uploadResizeControls.querySelector('.upload-resize-controls-value');
 var uploadImagePreview = uploadSelectImageForm.querySelector('.upload-form-preview');
 var effectImagePreview = uploadImagePreview.querySelector('.effect-image-preview');
-var uploadFormHashtags = uploadSelectImageForm.querySelector('.upload-form-hashtags');
 
 uploadSelectImageForm.addEventListener('submit', function onUploadSelectImageFormSubmit(evt) {
   if (!document.activeElement.classList.contains('upload-form-submit')) {
     evt.preventDefault();
     return;
   }
+
+  var isValidForm = validateForm();
+
+  if (!isValidForm) {
+    evt.preventDefault();
+  }
 });
+
+uploadFormDescription.addEventListener('invalid', function (evt) {
+  uploadFormDescription.style.border = '1px solid #f00';
+});
+
+uploadFormDescription.addEventListener('valid', function (evt) {
+  uploadFormDescription.style.border = '';
+});
+
+function validateForm() {
+  var isValidHashtags = validataFormHashtags();
+
+  if (!isValidHashtags) {
+    uploadFormHashtags.style.border = '1px solid #f00';
+  } else {
+    uploadFormHashtags.style.border = '';
+  }
+
+  return isValidHashtags;
+}
+
+function validataFormHashtags() {
+  var hashtags = uploadFormHashtags.value.split(' ').sort();
+  var noMoreThanFiveHashtags = hashtags.length <= 5;
+
+  var hasDuplicate = (hashtags.length === 1) ? false : hashtags.some(function (item, index, array) {
+    if (!array[index + 1]) {
+      return false;
+    }
+
+    return item.toLowerCase() === array[index + 1].toLowerCase();
+  });
+
+  var everyHashtagPasses = hashtags.every(function (item) {
+    // Each hashtags starts with a '#',
+    // consits of one word,
+    // has >= 20 letters
+    return /^#[a-zA-Z]{1,20}$/.test(item);
+  });
+
+  return noMoreThanFiveHashtags && !hasDuplicate && everyHashtagPasses;
+}
 
 function onUploadOverlayEscPress(evt) {
   if (evt.keyCode !== KEYCODES.Esc) {
@@ -308,21 +357,3 @@ uploadResizeControls.addEventListener('click', function onUploadResizeControlsCl
   uploadResizeControlsValue.value = newValue + '%';
   effectImagePreview.style.transform = 'scale(' + (newValue / 100) + ')';
 });
-
-function validataFormHashtags() {
-  var hashtags = uploadFormHashtags.value.split(' ').sort();
-  var noMoreThanFiveHashtags = hashtags.length <= 5;
-
-  var noDuplicates = hashtags.some(function (item, index, array) {
-    return item.toLowerCase() === (array[index + 1] || '').toLowerCase();
-  });
-
-  var everyHashtagPasses = hashtags.every(function (item) {
-    // Each hashtags starts with a '#',
-    // consits of one word,
-    // has >= 20 letters
-    return /^#[a-zA-Z]{1,20}$/.test(item);
-  });
-
-  return noMoreThanFiveHashtags && noDuplicates && everyHashtagPasses;
-}
