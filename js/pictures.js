@@ -223,7 +223,7 @@ uploadSelectImageForm.addEventListener('submit', function onUploadSelectImageFor
     return;
   }
 
-  var isValidForm = validateForm();
+  var isValidForm = validateUploadForm();
 
   if (!isValidForm) {
     evt.preventDefault();
@@ -238,7 +238,17 @@ uploadFormDescription.addEventListener('valid', function (evt) {
   uploadFormDescription.style.border = '';
 });
 
-function validateForm() {
+function resetUploadForm() {
+  uploadFile.value = '';
+  uploadResizeControlsValue.value = '55%';
+  effectImagePreview.className = 'effect-image-preview';
+  effectImagePreview.style.transform = '';
+  uploadEffectControls.querySelector('[name=effect]').checked = true;
+  uploadFormHashtags.value = '';
+  uploadFormDescription.value = '';
+}
+
+function validateUploadForm() {
   var isValidHashtags = validataFormHashtags();
 
   if (!isValidHashtags) {
@@ -291,6 +301,8 @@ function openUploadOverlay() {
 
 function closeUploadOverlay() {
   document.removeEventListener('keydown', onUploadOverlayEscPress);
+
+  resetUploadForm();
 
   uploadImage.classList.remove('hidden');
   uploadOverlay.classList.add('hidden');
