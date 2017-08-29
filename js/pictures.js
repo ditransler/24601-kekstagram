@@ -13,42 +13,10 @@ function generatePictureURL(index) {
   return 'photos/' + index + '.jpg';
 }
 
-function getRandomInteger(min, max) {
-  return Math.floor(min + Math.random() * (max + 1 - min));
-}
-
-function getNounEnding(number, one, two, five) {
-  var n = Math.abs(number);
-
-  n %= 100;
-
-  if (n >= 5 && n <= 20) {
-    return five;
-  }
-
-  n %= 10;
-
-  if (n === 1) {
-    return one;
-  }
-
-  if (n >= 2 && n <= 4) {
-    return two;
-  }
-
-  return five;
-}
-
-function getExceptRandomInteger(min, max, except) {
-  var int = getRandomInteger(min, max);
-
-  return (int === except) ? getExceptRandomInteger(min, max) : int;
-}
-
 function generateRandomComment(comments) {
   var isTwoLined = Math.floor(Math.random() * 2);
   var max = comments.length - 1;
-  var firstLineIndex = getRandomInteger(0, max);
+  var firstLineIndex = window.util.getRandomInteger(0, max);
   var secondLineIndex = null;
 
   if (!isTwoLined) {
@@ -59,7 +27,7 @@ function generateRandomComment(comments) {
    * When combining two lines of a comment
    * we don't want to pick the same line twice
    ***/
-  secondLineIndex = getExceptRandomInteger(0, max, firstLineIndex);
+  secondLineIndex = window.util.getExceptRandomInteger(0, max, firstLineIndex);
 
   return [comments[firstLineIndex], comments[secondLineIndex]];
 }
@@ -73,7 +41,7 @@ function generatePictures(quantity) {
     pictures.push({
       id: 'picture-' + ((i <= 9) ? '0' + i : i),
       url: generatePictureURL(i + 1, quantity),
-      likes: getRandomInteger(15, 200),
+      likes: window.util.getRandomInteger(15, 200),
       comments: generateRandomComment(COMMENTS)
     });
   }
@@ -136,7 +104,7 @@ function openGalleryOverlay(picture) {
   galleryComments.textContent = pictureComments;
   galleryComments.nextSibling.textContent = galleryComments.nextSibling.textContent
     .replace(/(комментари)[а-я]{1,3}/i, function (match, p1) {
-      return p1 + getNounEnding(+pictureComments, 'й', 'я', 'ев');
+      return p1 + window.util.getNounEnding(+pictureComments, 'й', 'я', 'ев');
     });
 
   galleryOverlay.querySelector('.likes-count').textContent = pictureLikes;
