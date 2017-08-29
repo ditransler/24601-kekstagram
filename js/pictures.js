@@ -9,11 +9,6 @@ var COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-var KEYCODES = {
-  Enter: 13,
-  Esc: 27
-};
-
 function generatePictureURL(index) {
   return 'photos/' + index + '.jpg';
 }
@@ -118,7 +113,7 @@ function closeGalleryOverlay() {
 }
 
 function onGalleryOverlayEscPress(evt) {
-  if (evt.keyCode !== KEYCODES.Esc) {
+  if (!window.util.isEscKey()) {
     return;
   }
 
@@ -179,7 +174,7 @@ pictures.addEventListener('click', function onPictureClick(evt) {
 pictures.addEventListener('keydown', function onPictureEnterPress(evt) {
   var picture = evt.target.closest('.picture');
 
-  if (evt.keyCode !== KEYCODES.Enter) {
+  if (!window.util.isEnterKey()) {
     return;
   }
 
@@ -197,7 +192,7 @@ galleryOverlayClose.addEventListener('click', function onGalleryOverlayCloseClic
 });
 
 galleryOverlayClose.addEventListener('keydown', function onGalleryOverlayCloseEnterPress(evt) {
-  if (evt.keyCode !== KEYCODES.Enter) {
+  if (!window.util.isEnterKey()) {
     return;
   }
 
@@ -283,7 +278,7 @@ function validataFormHashtags() {
 }
 
 function onUploadOverlayEscPress(evt) {
-  if (evt.keyCode !== KEYCODES.Esc) {
+  if (!window.util.isEscKey()) {
     return;
   }
 
@@ -319,7 +314,7 @@ uploadFormCancel.addEventListener('click', function onUploadFormCancelClick(evt)
 });
 
 uploadFormCancel.addEventListener('keydown', function onUploadFormCancelEnterPress(evt) {
-  if (evt.keyCode !== KEYCODES.Enter) {
+  if (!window.util.isEnterKey()) {
     return;
   }
 
