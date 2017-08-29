@@ -22,7 +22,7 @@ function closeGalleryOverlay() {
 }
 
 function onGalleryOverlayEscPress(evt) {
-  if (!window.util.isEscKey()) {
+  if (!window.util.isEscKey(evt)) {
     return;
   }
 
@@ -76,7 +76,7 @@ pictures.addEventListener('click', function onPictureClick(evt) {
 pictures.addEventListener('keydown', function onPictureEnterPress(evt) {
   var picture = evt.target.closest('.picture');
 
-  if (!window.util.isEnterKey()) {
+  if (!window.util.isEnterKey(evt)) {
     return;
   }
 
@@ -94,7 +94,7 @@ galleryOverlayClose.addEventListener('click', function onGalleryOverlayCloseClic
 });
 
 galleryOverlayClose.addEventListener('keydown', function onGalleryOverlayCloseEnterPress(evt) {
-  if (!window.util.isEnterKey()) {
+  if (!window.util.isEnterKey(evt)) {
     return;
   }
 
@@ -180,7 +180,7 @@ function validataFormHashtags() {
 }
 
 function onUploadOverlayEscPress(evt) {
-  if (!window.util.isEscKey()) {
+  if (!window.util.isEscKey(evt)) {
     return;
   }
 
@@ -216,7 +216,7 @@ uploadFormCancel.addEventListener('click', function onUploadFormCancelClick(evt)
 });
 
 uploadFormCancel.addEventListener('keydown', function onUploadFormCancelEnterPress(evt) {
-  if (!window.util.isEnterKey()) {
+  if (!window.util.isEnterKey(evt)) {
     return;
   }
 
