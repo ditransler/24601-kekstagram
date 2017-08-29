@@ -31,14 +31,6 @@
     }
   });
 
-  description.addEventListener('invalid', function (evt) {
-    description.style.border = '1px solid #f00';
-  });
-
-  description.addEventListener('valid', function (evt) {
-    description.style.border = '';
-  });
-
   function resetForm() {
     uploadFile.value = '';
     resizeControlsValue.value = '55%';
@@ -50,20 +42,13 @@
   }
 
   function validateForm() {
-    var isValidHashtags = validataHashtags();
-
-    if (!isValidHashtags) {
-      hashtags.style.border = '1px solid #f00';
-    } else {
-      hashtags.style.border = '';
-    }
-
-    return isValidHashtags;
+    return validataHashtags() & validateDescription();
   }
 
   function validataHashtags() {
     var hashtagsArr = hashtags.value.split(' ').sort();
     var noMoreThanFiveHashtags = hashtagsArr.length <= 5;
+    var isValid = false;
 
     var hasDuplicate = (hashtagsArr.length === 1) ? false : hashtagsArr.some(function (item, index, array) {
       if (!array[index + 1]) {
@@ -80,7 +65,24 @@
       return /^#[a-zA-Z]{1,20}$/.test(item);
     });
 
-    return noMoreThanFiveHashtags && !hasDuplicate && everyHashtagPasses;
+    isValid = noMoreThanFiveHashtags && !hasDuplicate && everyHashtagPasses;
+
+    if (!isValid) {
+      hashtags.style.border = '1px solid #f00';
+      return false;
+    }
+
+    hashtags.style.border = '';
+    return true;
+  }
+
+  function validateDescription() {
+    if (description.checkValidity()) {
+      description.style.border = '';
+      return true;
+    }
+
+    return false;
   }
 
   function onFormOverlayEscPress(evt) {
@@ -108,6 +110,10 @@
     uploadImage.classList.remove('hidden');
     formOverlay.classList.add('hidden');
   }
+
+  description.addEventListener('invalid', function () {
+    description.style.border = '1px solid #f00';
+  });
 
   uploadFile.addEventListener('change', function onUploadFileChange(evt) {
     document.addEventListener('keydown', onFormOverlayEscPress);
