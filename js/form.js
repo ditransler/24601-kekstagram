@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+
+  var initialFormValues = {};
+
   var form = document.querySelector('#upload-select-image');
   var formOverlay = form.querySelector('.upload-overlay');
   var formPreview = form.querySelector('.upload-form-preview');
@@ -11,12 +14,6 @@
 
   var hashtags = form.querySelector('.upload-form-hashtags');
   var description = form.querySelector('.upload-form-description');
-
-  var effectControls = form.querySelector('.upload-effect-controls');
-
-  var effectLevelLine = effectControls.querySelector('.upload-effect-level-line');
-  var effectLevelPin = effectLevelLine.querySelector('.upload-effect-level-pin');
-  var effectLevelVal = effectLevelLine.querySelector('.upload-effect-level-val');
 
   var resizeControls = form.querySelector('.upload-resize-controls');
   var resizeControlsValue = resizeControls.querySelector('.upload-resize-controls-value');
@@ -36,12 +33,15 @@
     }
   });
 
+  function getInitalFormValues() {
+    initialFormValues.resize = resizeControlsValue.value;
+  }
+
   function resetForm() {
     uploadFile.value = '';
-    resizeControlsValue.value = '55%';
-    imagePreview.className = 'effect-image-preview';
+    resizeControlsValue.value = initialFormValues.resize;
     imagePreview.style.transform = '';
-    effectControls.querySelector('[name=effect]').checked = true;
+    window.formEffects.resetEffects();
     hashtags.value = '';
     description.value = '';
   }
@@ -103,6 +103,8 @@
   }
 
   function openFormOverlay() {
+    getInitalFormValues();
+
     uploadImage.classList.add('hidden');
     formOverlay.classList.remove('hidden');
   }
@@ -114,15 +116,6 @@
 
     uploadImage.classList.remove('hidden');
     formOverlay.classList.add('hidden');
-  }
-
-  function getCoords(elem) {
-    var box = elem.getBoundingClientRect();
-
-    return {
-      left: box.left + window.pageXOffset,
-      top: box.top + window.pageYOffset
-    };
   }
 
   description.addEventListener('invalid', function () {
@@ -145,27 +138,6 @@
     }
 
     closeFormOverlay();
-  });
-
-  effectControls.addEventListener('change', function onEffectControlsChange(evt) {
-    if (evt.target.name !== 'effect') {
-      return;
-    }
-
-    var effect = 'effect-' + evt.target.value;
-    var radios = evt.currentTarget.querySelectorAll('[name=effect]');
-
-    radios.forEach(function (item) {
-      var effectName = 'effect-' + item.value;
-
-      if (!imagePreview.classList.contains(effectName)) {
-        return;
-      }
-
-      imagePreview.classList.remove(effectName);
-    });
-
-    imagePreview.classList.add(effect);
   });
 
   resizeControls.addEventListener('click', function onResizeControlsClick(evt) {
@@ -191,46 +163,4 @@
     imagePreview.style.transform = 'scale(' + (newValue / 100) + ')';
   });
 
-  effectLevelPin.addEventListener('mousedown', function onEffectLevelPinMouseDown(evt) {
-    evt.preventDefault();
-
-    var pinCoords = getCoords(effectLevelPin);
-    var lineCoords = getCoords(effectLevelLine);
-    var shiftX = evt.pageX - pinCoords.left;
-
-    function onEffectLevelPinMouseMove(moveEvt) {
-      moveEvt.preventDefault();
-
-      var newLeft = moveEvt.pageX - shiftX - lineCoords.left;
-
-      if (newLeft < 0) {
-        newLeft = 0;
-      }
-
-      var rightEdge = effectLevelLine.offsetWidth;
-
-      if (newLeft > rightEdge) {
-        newLeft = rightEdge;
-      }
-
-      effectLevelPin.style.left = newLeft + 'px';
-      effectLevelVal.style.width = newLeft + 'px';
-    }
-
-    function onEffectLevelPinMouseUp(upEvt) {
-      upEvt.preventDefault();
-
-      document.removeEventListener('mousemove', onEffectLevelPinMouseMove);
-      document.removeEventListener('mouseup', onEffectLevelPinMouseUp);
-    }
-
-    document.addEventListener('mousemove', onEffectLevelPinMouseMove);
-    document.addEventListener('mouseup', onEffectLevelPinMouseUp);
-
-    return false; // disable selection start (cursor change)
-  });
-
-  effectLevelPin.addEventListener('dragstart', function (evt) {
-    evt.preventDefault();
-  });
 })();
