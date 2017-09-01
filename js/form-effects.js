@@ -70,21 +70,19 @@
     effectLevel.style.display = 'block';
   }
 
-  changeLevelDisplay();
+  function applyFilter(element, newFilter, oldFilter) {
+    element.classList.remove('effect-' + oldFilter);
 
-  effectControls.addEventListener('change', function onEffectControlsChange(evt) {
-    if (evt.target.name !== 'effect') {
-      return;
-    }
+    element.classList.add('effect-' + newFilter);
 
-    imagePreview.classList.remove('effect-' + currentEffect);
-
-    imagePreview.classList.add('effect-' + evt.target.value);
-
-    currentEffect = evt.target.value;
+    element.dataset.effect = currentEffect = newFilter;
 
     changeLevelDisplay();
-  });
+  }
+
+  changeLevelDisplay();
+
+  window.initializeFilters(effectControls, imagePreview, applyFilter);
 
   effectLevelPin.addEventListener('mousedown', function onEffectLevelPinMouseDown(evt) {
     evt.preventDefault();
