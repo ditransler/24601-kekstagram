@@ -118,6 +118,10 @@
     formOverlay.classList.add('hidden');
   }
 
+  function adjustScale(element, scale) {
+    element.style.transform = 'scale(' + (scale / 100) + ')';
+  }
+
   description.addEventListener('invalid', function () {
     description.style.border = '1px solid #f00';
   });
@@ -140,27 +144,5 @@
     closeFormOverlay();
   });
 
-  resizeControls.addEventListener('click', function onResizeControlsClick(evt) {
-    var step = +resizeControlsValue.getAttribute('step');
-    var min = +resizeControlsValue.getAttribute('min');
-    var max = +resizeControlsValue.getAttribute('max');
-    var currentValue = +resizeControlsValue.value.slice(0, -1); // cut off percents sign
-    var newValue = null;
-
-    // Decrease the value
-    if (evt.target.classList.contains('upload-resize-controls-button-dec')) {
-      newValue = currentValue - step;
-      newValue = (newValue <= min) ? min : newValue;
-    }
-
-    // Increase the value
-    if (evt.target.classList.contains('upload-resize-controls-button-inc')) {
-      newValue = currentValue + step;
-      newValue = (newValue >= max) ? max : newValue;
-    }
-
-    resizeControlsValue.value = newValue + '%';
-    imagePreview.style.transform = 'scale(' + (newValue / 100) + ')';
-  });
-
+  window.initializeScale(imagePreview, adjustScale);
 })();
