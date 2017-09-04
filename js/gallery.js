@@ -21,8 +21,8 @@
     window.preview.handlePreviewOpening(pictures);
   }
 
-  function onPicturesError() {
-    return false;
+  function onPicturesError(err) {
+    window.message.showError(err);
   }
 
   window.backend.load(onPicturesLoad, onPicturesError);

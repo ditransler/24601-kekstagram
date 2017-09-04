@@ -114,7 +114,9 @@
   }
 
   function onFormSaveError(err) {
-    return false;
+    closeFormOverlay();
+
+    window.message.showError(err);
   }
 
   form.addEventListener('submit', function onFormSubmit(evt) {

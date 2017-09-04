@@ -21,7 +21,7 @@
           if (xhr.status === 200) {
             options.onSuccess(xhr.responseText);
           } else {
-            throw new Error('There\'re was a problem with the request. Status:' + xhr.status);
+            throw new Error('В процессе выполнения запроса произошла ошибка. Статус: ' + xhr.status);
           }
         }
       } catch (err) {
