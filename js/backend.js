@@ -32,7 +32,6 @@
     xhr.open(options.method, options.url);
 
     if (options.method === 'POST' && typeof options.data !== 'undefined') {
-      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.send(options.data);
       return true;
     }
