@@ -1,18 +1,29 @@
 'use strict';
 
-var pictures = document.querySelector('.pictures');
-var generatedPictures = window.data.generatePictures();
+(function () {
+  var pictures = document.querySelector('.pictures');
 
-function addPhotoToPictures(items, target) {
-  var fragment = document.createDocumentFragment();
+  function addPhotoToPictures(items, target) {
+    var fragment = document.createDocumentFragment();
 
-  items.forEach(function (item) {
-    fragment.appendChild(window.picture.renderPhoto(item));
-  });
+    items.forEach(function (item) {
+      fragment.appendChild(window.picture.renderPhoto(item));
+    });
 
-  target.appendChild(fragment);
-}
+    target.appendChild(fragment);
+  }
 
-addPhotoToPictures(generatedPictures, pictures);
+  function onPicturesLoad(response) {
+    var data = JSON.parse(response);
 
-window.preview.handlePreviewOpening(pictures);
+    addPhotoToPictures(data, pictures);
+
+    window.preview.handlePreviewOpening(pictures);
+  }
+
+  function onPicturesError() {
+    return false;
+  }
+
+  window.backend.load(onPicturesLoad, onPicturesError);
+})();
