@@ -20,19 +20,6 @@
 
   var imagePreview = formPreview.querySelector('.effect-image-preview');
 
-  form.addEventListener('submit', function onFormSubmit(evt) {
-    if (!document.activeElement.classList.contains('upload-form-submit')) {
-      evt.preventDefault();
-      return;
-    }
-
-    var isValidForm = validateForm();
-
-    if (!isValidForm) {
-      evt.preventDefault();
-    }
-  });
-
   function getInitalFormValues() {
     initialFormValues.resize = resizeControlsValue.value;
   }
@@ -121,6 +108,32 @@
   function adjustScale(element, scale) {
     element.style.transform = 'scale(' + (scale / 100) + ')';
   }
+
+  function onFormSaveLoad() {
+    closeFormOverlay();
+  }
+
+  function onFormSaveError(err) {
+    closeFormOverlay();
+
+    window.message.showError(err);
+  }
+
+  form.addEventListener('submit', function onFormSubmit(evt) {
+    evt.preventDefault();
+
+    if (!document.activeElement.classList.contains('upload-form-submit')) {
+      return;
+    }
+
+    if (!validateForm()) {
+      return;
+    }
+
+    var formData = new FormData(form);
+
+    window.backend.save(formData, onFormSaveLoad, onFormSaveError);
+  });
 
   description.addEventListener('invalid', function () {
     description.style.border = '1px solid #f00';
