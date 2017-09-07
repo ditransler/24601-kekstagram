@@ -70,19 +70,19 @@
     effectLevel.style.display = 'block';
   }
 
-  function applyFilter(element, newFilter, oldFilter) {
-    element.classList.remove('effect-' + oldFilter);
+  function applyEffect(element, newEffect, oldEffect) {
+    element.classList.remove('effect-' + oldEffect);
 
-    element.classList.add('effect-' + newFilter);
+    element.classList.add('effect-' + newEffect);
 
-    element.dataset.effect = currentEffect = newFilter;
+    element.dataset.effect = currentEffect = newEffect;
 
     changeLevelDisplay();
   }
 
   changeLevelDisplay();
 
-  window.initializeFilters(effectControls, imagePreview, applyFilter);
+  window.initializeEffects(effectControls, imagePreview, applyEffect);
 
   effectLevelPin.addEventListener('mousedown', function onEffectLevelPinMouseDown(evt) {
     evt.preventDefault();
