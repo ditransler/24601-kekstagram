@@ -10,6 +10,7 @@
       fragment.appendChild(window.picture.renderPhoto(item));
     });
 
+    target.innerHTML = '';
     target.appendChild(fragment);
   }
 
@@ -20,7 +21,7 @@
 
     window.preview.handlePreviewOpening(pictures);
 
-    window.initializeFilters();
+    window.initializeFilters(pictures);
   }
 
   function onPicturesError(err) {
