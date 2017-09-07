@@ -19,6 +19,8 @@
     addPhotoToPictures(data, pictures);
 
     window.preview.handlePreviewOpening(pictures);
+
+    window.initializeFilters();
   }
 
   function onPicturesError(err) {
