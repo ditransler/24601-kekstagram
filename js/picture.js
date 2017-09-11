@@ -3,9 +3,12 @@
 (function () {
   var pictureTemplate = document.querySelector('#picture-template').content;
 
-  function renderPhoto(picture) {
+  function renderPhoto(picture, index) {
     var pictureElem = pictureTemplate.cloneNode(true);
     var pictureTag = pictureElem.querySelector('.picture');
+    var pictureIndex = (index < 10) ? '0' + index : index;
+
+    pictureTag.setAttribute('id', 'picture-' + pictureIndex);
 
     pictureTag.querySelector('img').setAttribute('src', picture.url);
 
