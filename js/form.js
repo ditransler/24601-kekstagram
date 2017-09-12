@@ -2,8 +2,6 @@
 
 (function () {
 
-  var initialFormValues = {};
-
   var form = document.querySelector('#upload-select-image');
   var formOverlay = form.querySelector('.upload-overlay');
   var formPreview = form.querySelector('.upload-form-preview');
@@ -23,22 +21,14 @@
 
   var imagePreview = formPreview.querySelector('.effect-image-preview');
 
-  function getInitalFormValues() {
-    initialFormValues.resize = resizeControlsValue.value;
-  }
-
   function resetForm() {
     uploadFile.value = '';
-    resizeControlsValue.value = initialFormValues.resize;
+    resizeControlsValue.value = '100%';
     imagePreview.style.transform = '';
     effectControls.querySelector('[name=effect]').checked = true;
     effectLevel.style.display = 'none';
     hashtags.value = '';
     description.value = '';
-  }
-
-  function validateForm() {
-    return validataHashtags() & validateDescription();
   }
 
   function validataHashtags() {
@@ -72,15 +62,6 @@
     return true;
   }
 
-  function validateDescription() {
-    if (description.checkValidity()) {
-      description.style.border = '';
-      return true;
-    }
-
-    return false;
-  }
-
   function onFormOverlayEscPress(evt) {
     if (!window.util.isEscKey(evt)) {
       return;
@@ -94,8 +75,6 @@
   }
 
   function openFormOverlay() {
-    getInitalFormValues();
-
     uploadImage.classList.add('hidden');
     formOverlay.classList.remove('hidden');
     document.body.classList.add('is-overlay-opened');
@@ -138,7 +117,7 @@
       return;
     }
 
-    if (!validateForm()) {
+    if (hashtags.value !== '' && !validataHashtags()) {
       return;
     }
 
