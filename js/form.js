@@ -15,6 +15,9 @@
   var hashtags = form.querySelector('.upload-form-hashtags');
   var description = form.querySelector('.upload-form-description');
 
+  var effectControls = form.querySelector('.upload-effect-controls');
+  var effectLevel = effectControls.querySelector('.upload-effect-level');
+
   var resizeControls = form.querySelector('.upload-resize-controls');
   var resizeControlsValue = resizeControls.querySelector('.upload-resize-controls-value');
 
@@ -28,7 +31,8 @@
     uploadFile.value = '';
     resizeControlsValue.value = initialFormValues.resize;
     imagePreview.style.transform = '';
-    window.formEffects.resetEffects();
+    effectControls.querySelector('[name=effect]').checked = true;
+    effectLevel.style.display = 'none';
     hashtags.value = '';
     description.value = '';
   }
@@ -109,6 +113,12 @@
     element.style.transform = 'scale(' + (scale / 100) + ')';
   }
 
+  function applyEffect(element, newEffect, oldEffect) {
+    element.classList.remove('effect-' + oldEffect);
+
+    element.classList.add('effect-' + newEffect);
+  }
+
   function onFormSaveLoad() {
     closeFormOverlay();
   }
@@ -158,4 +168,6 @@
   });
 
   window.initializeScale(imagePreview, adjustScale);
+
+  window.initializeEffects(imagePreview, applyEffect);
 })();

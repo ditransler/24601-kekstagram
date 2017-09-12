@@ -6,8 +6,8 @@
   function addPhotosToPictures(items) {
     var fragment = document.createDocumentFragment();
 
-    items.forEach(function (item) {
-      fragment.appendChild(window.picture.renderPhoto(item));
+    items.forEach(function (item, index) {
+      fragment.appendChild(window.picture.renderPhoto(item, index));
     });
 
     pictures.innerHTML = '';
