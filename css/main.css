@@ -24,6 +24,10 @@ body {
   color: #ffe753;
 }
 
+.is-overlay-opened {
+  overflow-y: hidden;
+}
+
 .hidden {
   display: none;
 }

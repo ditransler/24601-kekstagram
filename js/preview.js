@@ -8,6 +8,7 @@
     document.removeEventListener('keydown', onGalleryOverlayEscPress);
     document.querySelector(galleryOverlay.dataset['returnFocus']).focus();
     galleryOverlay.classList.add('hidden');
+    document.body.classList.add('is-overlay-opened');
   }
 
   function onGalleryOverlayEscPress(evt) {
@@ -44,6 +45,7 @@
     galleryOverlay.dataset['returnFocus'] = '#' + picture.getAttribute('id');
 
     galleryOverlay.classList.remove('hidden');
+    document.body.classList.add('is-overlay-opened');
     galleryOverlay.focus();
   }
 

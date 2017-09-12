@@ -98,6 +98,7 @@
 
     uploadImage.classList.add('hidden');
     formOverlay.classList.remove('hidden');
+    document.body.classList.add('is-overlay-opened');
   }
 
   function closeFormOverlay() {
@@ -107,6 +108,7 @@
 
     uploadImage.classList.remove('hidden');
     formOverlay.classList.add('hidden');
+    document.body.classList.remove('is-overlay-opened');
   }
 
   function adjustScale(element, scale) {
