@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var form = document.querySelector('#upload-select-image');
   var formOverlay = form.querySelector('.upload-overlay');
@@ -110,6 +111,32 @@
     window.message.showError(err);
   }
 
+  function onPreloadFileSuccess() {
+    document.addEventListener('keydown', onFormOverlayEscPress);
+    openFormOverlay();
+  }
+
+  function preloadFile(item, target, cb) {
+    var itemName = item.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return itemName.endsWith(it);
+    });
+
+    if (!matches) {
+      return;
+    }
+
+    var reader = new FileReader();
+
+    reader.addEventListener('load', function () {
+      target.src = reader.result;
+      cb();
+    });
+
+    reader.readAsDataURL(item);
+  }
+
   form.addEventListener('submit', function onFormSubmit(evt) {
     evt.preventDefault();
 
@@ -131,9 +158,13 @@
   });
 
   uploadFile.addEventListener('change', function onUploadFileChange(evt) {
-    document.addEventListener('keydown', onFormOverlayEscPress);
+    var file = evt.target.files[0];
 
-    openFormOverlay();
+    if (!file) {
+      return;
+    }
+
+    preloadFile(file, imagePreview, onPreloadFileSuccess);
   });
 
   formCancel.addEventListener('click', function onFormCancelClick(evt) {
