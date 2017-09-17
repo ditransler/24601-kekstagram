@@ -79,7 +79,7 @@
     });
   }
 
-  galleryOverlayClose.addEventListener('click', function onGalleryOverlayCloseClick(evt) {
+  galleryOverlayClose.addEventListener('click', function onGalleryOverlayCloseClick() {
     galleryOverlay.classList.add('hidden');
   });
 

@@ -3,25 +3,14 @@
 (function () {
   var pictures = document.querySelector('.pictures');
 
-  function addPhotosToPictures(items) {
-    var fragment = document.createDocumentFragment();
-
-    items.forEach(function (item, index) {
-      fragment.appendChild(window.picture.renderPhoto(item, index));
-    });
-
-    pictures.innerHTML = '';
-    pictures.appendChild(fragment);
-  }
-
   function onPicturesLoad(response) {
     var data = JSON.parse(response);
 
-    addPhotosToPictures(data);
+    window.render(data);
 
     window.preview.handlePreviewOpening(pictures);
 
-    window.initializeFilters(data, addPhotosToPictures);
+    window.initializeFilters(data, window.render);
   }
 
   function onPicturesError(err) {
