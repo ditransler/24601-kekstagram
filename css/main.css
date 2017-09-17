@@ -163,6 +163,12 @@ body {
   background: url("../img/icon-photo.png") center no-repeat;
   border: none;
   cursor: pointer;
+
+  transition: transform 0.2s ease-out;
+}
+
+.upload-control.is-dragover {
+  transform: scale(1.3);
 }
 
 .upload-image .upload-submit {

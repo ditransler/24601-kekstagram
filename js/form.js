@@ -9,6 +9,7 @@
   var formCancel = form.querySelector('#upload-cancel');
 
   var uploadFile = form.querySelector('#upload-file');
+  var uploadControl = form.querySelector('.upload-control');
   var uploadImage = form.querySelector('.upload-image');
 
   var hashtags = form.querySelector('.upload-form-hashtags');
@@ -181,6 +182,31 @@
     }
 
     closeFormOverlay();
+  });
+
+  uploadControl.addEventListener('dragover', function onUploadControlDragOver(evt) {
+    evt.target.classList.add('is-dragover');
+    evt.preventDefault();
+    return false;
+  });
+
+  uploadControl.addEventListener('dragleave', function onUploadControlDragLeave(evt) {
+    evt.target.classList.remove('is-dragover');
+    evt.preventDefault();
+  });
+
+  uploadControl.addEventListener('drop', function onUploadControlDrop(evt) {
+    evt.target.classList.remove('is-dragover');
+
+    var file = evt.dataTransfer.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    preloadFile(file, onPreloadFileSuccess);
+
+    evt.preventDefault();
   });
 
   window.initializeScale(imagePreview, adjustScale);
