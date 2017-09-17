@@ -22,7 +22,7 @@
       try {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
-            options.onSuccess(xhr.responseText);
+            options.onSuccess(xhr.response);
           } else {
             throw new Error('В процессе выполнения запроса произошла ошибка. Статус: ' + xhr.status);
           }
