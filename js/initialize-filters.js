@@ -40,7 +40,7 @@
       return;
     }
 
-    window.debounce(rerender.bind(null, filterData(evt.target.value)));
+    window.util.debounce(rerender.bind(null, filterData(evt.target.value)));
   }
 
   window.initializeFilters = function (data, cb) {

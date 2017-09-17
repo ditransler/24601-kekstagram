@@ -6,6 +6,8 @@
     Esc: 27
   };
 
+  var DEBOUNCE_INTERVAL = 500; // ms
+
   window.util = {
     isEscKey: function (evt) {
       return evt.keyCode === KEYCODES.Esc;
@@ -55,6 +57,17 @@
       }
 
       return array;
-    }
+    },
+    debounce: (function () {
+      var lastTimeout;
+
+      return function (func) {
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+
+        lastTimeout = window.setTimeout(func, DEBOUNCE_INTERVAL);
+      };
+    })()
   };
 })();
