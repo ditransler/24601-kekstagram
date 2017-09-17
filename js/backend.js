@@ -15,6 +15,9 @@
       return false;
     }
 
+    xhr.responseType = 'json';
+    xhr.timeout = 10000; // 10s
+
     xhr.onreadystatechange = function () {
       try {
         if (xhr.readyState === XMLHttpRequest.DONE) {
