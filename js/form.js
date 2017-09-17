@@ -16,6 +16,7 @@
 
   var effectControls = form.querySelector('.upload-effect-controls');
   var effectLevel = effectControls.querySelector('.upload-effect-level');
+  var effectPreview = effectControls.querySelectorAll('.upload-effect-preview');
 
   var resizeControls = form.querySelector('.upload-resize-controls');
   var resizeControlsValue = resizeControls.querySelector('.upload-resize-controls-value');
@@ -111,12 +112,18 @@
     window.message.showError(err);
   }
 
-  function onPreloadFileSuccess() {
+  function onPreloadFileSuccess(evt) {
     document.addEventListener('keydown', onFormOverlayEscPress);
+
+    imagePreview.src = evt.target.result;
+    effectPreview.forEach(function (item) {
+      item.style.backgroundImage = 'url("' + evt.target.result + '")';
+    });
+
     openFormOverlay();
   }
 
-  function preloadFile(item, target, cb) {
+  function preloadFile(item, cb) {
     var itemName = item.name.toLowerCase();
 
     var matches = FILE_TYPES.some(function (it) {
@@ -129,10 +136,7 @@
 
     var reader = new FileReader();
 
-    reader.addEventListener('load', function () {
-      target.src = reader.result;
-      cb();
-    });
+    reader.addEventListener('load', cb);
 
     reader.readAsDataURL(item);
   }
@@ -164,7 +168,7 @@
       return;
     }
 
-    preloadFile(file, imagePreview, onPreloadFileSuccess);
+    preloadFile(file, onPreloadFileSuccess);
   });
 
   formCancel.addEventListener('click', function onFormCancelClick(evt) {
