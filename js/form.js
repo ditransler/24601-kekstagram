@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var form = document.querySelector('#upload-select-image');
   var formOverlay = form.querySelector('.upload-overlay');
@@ -8,6 +9,7 @@
   var formCancel = form.querySelector('#upload-cancel');
 
   var uploadFile = form.querySelector('#upload-file');
+  var uploadControl = form.querySelector('.upload-control');
   var uploadImage = form.querySelector('.upload-image');
 
   var hashtags = form.querySelector('.upload-form-hashtags');
@@ -15,6 +17,7 @@
 
   var effectControls = form.querySelector('.upload-effect-controls');
   var effectLevel = effectControls.querySelector('.upload-effect-level');
+  var effectPreview = effectControls.querySelectorAll('.upload-effect-preview');
 
   var resizeControls = form.querySelector('.upload-resize-controls');
   var resizeControlsValue = resizeControls.querySelector('.upload-resize-controls-value');
@@ -110,6 +113,35 @@
     window.message.showError(err);
   }
 
+  function onPreloadFileSuccess(evt) {
+    document.addEventListener('keydown', onFormOverlayEscPress);
+
+    imagePreview.src = evt.target.result;
+    effectPreview.forEach(function (item) {
+      item.style.backgroundImage = 'url("' + evt.target.result + '")';
+    });
+
+    openFormOverlay();
+  }
+
+  function preloadFile(item, cb) {
+    var itemName = item.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return itemName.endsWith(it);
+    });
+
+    if (!matches) {
+      return;
+    }
+
+    var reader = new FileReader();
+
+    reader.addEventListener('load', cb);
+
+    reader.readAsDataURL(item);
+  }
+
   form.addEventListener('submit', function onFormSubmit(evt) {
     evt.preventDefault();
 
@@ -131,9 +163,13 @@
   });
 
   uploadFile.addEventListener('change', function onUploadFileChange(evt) {
-    document.addEventListener('keydown', onFormOverlayEscPress);
+    var file = evt.target.files[0];
 
-    openFormOverlay();
+    if (!file) {
+      return;
+    }
+
+    preloadFile(file, onPreloadFileSuccess);
   });
 
   formCancel.addEventListener('click', function onFormCancelClick(evt) {
@@ -146,6 +182,31 @@
     }
 
     closeFormOverlay();
+  });
+
+  uploadControl.addEventListener('dragover', function onUploadControlDragOver(evt) {
+    evt.target.classList.add('is-dragover');
+    evt.preventDefault();
+    return false;
+  });
+
+  uploadControl.addEventListener('dragleave', function onUploadControlDragLeave(evt) {
+    evt.target.classList.remove('is-dragover');
+    evt.preventDefault();
+  });
+
+  uploadControl.addEventListener('drop', function onUploadControlDrop(evt) {
+    evt.target.classList.remove('is-dragover');
+
+    var file = evt.dataTransfer.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    preloadFile(file, onPreloadFileSuccess);
+
+    evt.preventDefault();
   });
 
   window.initializeScale(imagePreview, adjustScale);
