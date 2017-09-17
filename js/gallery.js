@@ -1,16 +1,19 @@
 'use strict';
 
 (function () {
-  var pictures = document.querySelector('.pictures');
+  var pictures = [];
+  var picturesList = document.querySelector('.pictures');
 
-  function onPicturesLoad(response) {
-    var data = JSON.parse(response);
+  function onPicturesLoad(data) {
+    pictures = data.map(function (item) {
+      return new window.Picture(item);
+    });
 
-    window.render(data);
+    window.render(pictures);
 
-    window.preview.handlePreviewOpening(pictures);
+    window.preview.handlePreviewOpening(picturesList);
 
-    window.initializeFilters(data, window.render);
+    window.initializeFilters(pictures, window.render);
   }
 
   function onPicturesError(err) {
