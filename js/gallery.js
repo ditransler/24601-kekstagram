@@ -11,7 +11,7 @@
 
     window.render(pictures);
 
-    window.preview.handlePreviewOpening(picturesList);
+    window.preview.handlePreviewOpening();
 
     window.initializeFilters(pictures, window.render);
   }
@@ -21,4 +21,11 @@
   }
 
   window.backend.load(onPicturesLoad, onPicturesError);
+
+  window.gallery = {
+    container: picturesList,
+    get pictures() {
+      return pictures;
+    }
+  };
 })();
