@@ -1,27 +1,19 @@
 'use strict';
 
 (function () {
-  var pictures = document.querySelector('.pictures');
+  var pictures = [];
+  var picturesList = document.querySelector('.pictures');
 
-  function addPhotosToPictures(items) {
-    var fragment = document.createDocumentFragment();
-
-    items.forEach(function (item, index) {
-      fragment.appendChild(window.picture.renderPhoto(item, index));
+  function onPicturesLoad(data) {
+    pictures = data.map(function (item) {
+      return new window.Picture(item);
     });
 
-    pictures.innerHTML = '';
-    pictures.appendChild(fragment);
-  }
+    window.render(pictures);
 
-  function onPicturesLoad(response) {
-    var data = JSON.parse(response);
+    window.preview.handlePreviewOpening();
 
-    addPhotosToPictures(data);
-
-    window.preview.handlePreviewOpening(pictures);
-
-    window.initializeFilters(data, addPhotosToPictures);
+    window.initializeFilters();
   }
 
   function onPicturesError(err) {
@@ -29,4 +21,11 @@
   }
 
   window.backend.load(onPicturesLoad, onPicturesError);
+
+  window.gallery = {
+    container: picturesList,
+    get pictures() {
+      return pictures;
+    }
+  };
 })();

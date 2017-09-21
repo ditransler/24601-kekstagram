@@ -8,16 +8,15 @@
     random: 2,
     recommend: 3
   };
-  var initialData = null;
 
   function filterData(name) {
     var filterValue = FILTER_NAMES[name];
 
     if (filterValue === FILTER_NAMES.recommend) {
-      return initialData;
+      return window.gallery.pictures;
     }
 
-    var data = initialData.slice();
+    var data = window.gallery.pictures.slice();
 
     switch (filterValue) {
       case FILTER_NAMES.popular:
@@ -31,22 +30,20 @@
       case FILTER_NAMES.random:
         return window.util.shuffleArray(data);
       default:
-        return initialData;
+        return window.gallery.pictures;
     }
   }
 
-  function onFiltersChange(rerender, evt) {
+  function onFiltersChange(evt) {
     if (!evt.target.classList.contains('filters-radio')) {
       return;
     }
 
-    window.debounce(rerender.bind(null, filterData(evt.target.value)));
+    window.util.debounce(window.render.bind(null, filterData(evt.target.value)));
   }
 
-  window.initializeFilters = function (data, cb) {
-    initialData = data;
-
-    filters.addEventListener('change', onFiltersChange.bind(null, cb));
+  window.initializeFilters = function () {
+    filters.addEventListener('change', onFiltersChange);
 
     filters.classList.remove('hidden');
   };
